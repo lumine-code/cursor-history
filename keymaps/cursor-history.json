@@ -1,0 +1,6 @@
+{
+  "lumine-text-editor": {
+    "alt-left": "cursor-history:prev",
+    "alt-right": "cursor-history:next"
+  }
+}

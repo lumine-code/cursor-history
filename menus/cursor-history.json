@@ -1,0 +1,26 @@
+{
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "Cursor History",
+          "submenu": [
+            {
+              "label": "Previous Position",
+              "command": "cursor-history:prev"
+            },
+            {
+              "label": "Next Position",
+              "command": "cursor-history:next"
+            },
+            {
+              "label": "Clear History",
+              "command": "cursor-history:clear"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

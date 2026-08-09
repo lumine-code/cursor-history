@@ -1,0 +1,12 @@
+@keyframes cursor-history-flash {
+  from {
+    background-color: color-mix(in srgb, var(--syntax-selection-flash-color) 80%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+lumine-text-editor.editor .line.cursor-history-flash-line {
+  animation: cursor-history-flash 0.8s 1;
+}

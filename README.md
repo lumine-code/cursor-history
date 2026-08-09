@@ -1,54 +1,36 @@
-# cursor-history [![Build Status](https://travis-ci.org/t9md/atom-cursor-history.svg)](https://travis-ci.org/t9md/atom-cursor-history)
+# cursor-history
 
-Like browser's Go and Back button, like `ctrl-i`, `ctrl-o` in Vim.
-You can go/back to cursor position history.
+Navigate backward and forward through recent cursor positions.
 
-![gif](https://raw.githubusercontent.com/t9md/t9md/3d4a0bd38ac9571510d5ba52aa5361897b123218/img/atom-cursor-history.gif)
+## Features
 
-# Keymap
+- **Cross-file navigation**: revisits saved cursor locations across open and closed files.
+- **Per-editor navigation**: optionally limits traversal to the current editor.
+- **Movement thresholds**: records positions after configurable row or column movement.
+- **Live markers**: tracks edits so saved positions move with their buffers.
+- **Destination flash**: briefly highlights a location after landing there.
+- **Serializable state**: restores valid cursor history with the workspace session.
 
-No default keymap. You need to set by yourself.  
+## Installation
 
-* e.g.
+To install `cursor-history` search for _cursor-history_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/cursor-history`.
 
-```coffeescript
-'atom-workspace':
-  'ctrl-i': 'cursor-history:next'
-  'ctrl-o': 'cursor-history:prev'
-  'ctrl-cmd-i': 'cursor-history:next-within-editor'
-  'ctrl-cmd-o': 'cursor-history:prev-within-editor'
-```
+## Commands
 
-# Commands
+Commands available in `lumine-text-editor`:
 
-- `cursor-history:next`: Go to next point in history.
-- `cursor-history:prev`: Go to previous point in history.
-- `cursor-history:next-within-editor`: Go to next point in history within current editor.
-- `cursor-history:prev-within-editor`: Go to previous point in history within current editor.
-- `cursor-history:clear`: Clear history.
+- `cursor-history:prev`: visit the previous saved position.
+- `cursor-history:next`: visit the next saved position.
+- `cursor-history:prev-within-editor`: visit the previous position in the current editor.
+- `cursor-history:next-within-editor`: visit the next position in the current editor.
+- `cursor-history:clear`: remove every saved position.
+- `cursor-history:dump-history`: print the current history to the developer console.
+- `cursor-history:toggle-debug`: toggle diagnostic logging.
 
-# Features
+## Configuration
 
-- Go and Back to previous/next position of cursor history including closed buffer(can exclude closed buffer with config option).
-- Flash cursor line on land.
-- Vim like history concatenation (Never save same line per file. This allow you to jump specific line only once).
+The package settings control history length, row and column movement thresholds, closed-file behavior, per-file deduplication, pane search, pending editors, destination flashes, ignored commands, and debug logging.
 
-# When cursor history saved?
+## Contributing
 
-- When editor lost focus.
-- When cursor moved and row delta exceeds `rowDeltaToRemember`(default 4).
-- When cursor moved within same row and column delta exceeds `columnDeltaToRemember`(default 9999).
-
-# Customize flashing effects.
-
-When you enabled `flashOnLand`(default `false`), it flashes cursor line when move around history position.  
-You can customize flashing effect in your `style.less` based on following example.  
-
-```less
-@keyframes cursor-history-flash {
-  from { background-color: red; }
-}
-atom-text-editor.editor .line.cursor-history-flash-line {
-  animation-duration: 1s;
-}
-```
+Got ideas to make this package better, found a bug, or want to help add new features? Just drop your thoughts on GitHub. Any feedback is welcome!

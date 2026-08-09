@@ -1,110 +1,126 @@
 {
   "name": "cursor-history",
-  "main": "./lib/main",
-  "version": "0.14.0",
-  "description": "Cursor position history manager",
+  "author": "lumine-code",
+  "version": "1.0.0",
+  "description": "Navigate backward and forward through recent cursor positions.",
   "keywords": [
+    "navigation",
     "jumplist",
-    "history",
-    "navigation"
+    "location",
+    "movement"
   ],
-  "repository": "https://github.com/t9md/atom-cursor-history",
+  "repository": "https://github.com/lumine-code/cursor-history",
+  "bugs": {
+    "url": "https://github.com/lumine-code/cursor-history/issues"
+  },
   "license": "MIT",
+  "main": "./lib/main",
+  "files": [
+    "keymaps",
+    "lib",
+    "menus",
+    "spec",
+    "styles"
+  ],
   "engines": {
-    "atom": "^1.19.0"
+    "lumine": "^1.0.0"
+  },
+  "backgroundTips": [
+    "Return to an earlier cursor position with {{ 'cursor-history:prev' | keystroke }}",
+    "Move forward through cursor history with {{ 'cursor-history:next' | keystroke }}"
+  ],
+  "scripts": {
+    "test": "lumine --test spec",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "configSchema": {
     "max": {
+      "title": "Maximum Entries",
+      "description": "Maximum number of cursor positions to keep.",
+      "type": "integer",
       "default": 100,
       "minimum": 1,
-      "description": "number of history to keep",
-      "order": 0,
-      "type": "integer"
+      "order": 0
     },
     "rowDeltaToRemember": {
+      "title": "Row Movement Threshold",
+      "description": "Save a position when the cursor moves farther than this many rows.",
+      "type": "integer",
       "default": 4,
       "minimum": 0,
-      "description": "Save history when row delta was greater than this value",
-      "order": 1,
-      "type": "integer"
+      "order": 1
     },
     "columnDeltaToRemember": {
+      "title": "Column Movement Threshold",
+      "description": "Save same-row movement when it exceeds this many columns.",
+      "type": "integer",
       "default": 9999,
       "minimum": 0,
-      "description": "Save history when cursor moved within same row and column delta was greater than this value",
-      "order": 2,
-      "type": "integer"
+      "order": 2
     },
     "excludeClosedBuffer": {
+      "title": "Exclude Closed Files",
+      "description": "Remove positions whose editor has been closed.",
+      "type": "boolean",
       "default": false,
-      "description": "Don't open closed Buffer on history excursion",
-      "order": 3,
-      "type": "boolean"
+      "order": 3
     },
     "keepSingleEntryPerBuffer": {
+      "title": "One Entry per File",
+      "description": "Keep only the latest position for each file.",
+      "type": "boolean",
       "default": false,
-      "description": "Keep latest entry only per buffer",
-      "order": 4,
-      "type": "boolean"
+      "order": 4
     },
     "searchAllPanes": {
+      "title": "Search All Panes",
+      "description": "Reuse an existing editor from any pane before opening another one.",
+      "type": "boolean",
       "default": true,
-      "description": "Search existing buffer from all panes before opening new editor",
-      "order": 5,
-      "type": "boolean"
+      "order": 5
     },
     "openInPendingState": {
+      "title": "Open in Preview Mode",
+      "description": "Open closed history targets in pending state.",
+      "type": "boolean",
       "default": false,
-      "description": "If the target location is not currently opened, open editor in pending-state (preview mode)",
-      "order": 6,
-      "type": "boolean"
+      "order": 6
     },
     "flashOnLand": {
+      "title": "Flash Destination Line",
+      "description": "Briefly highlight the destination after a jump.",
+      "type": "boolean",
       "default": true,
-      "description": "flash cursor on land",
-      "order": 7,
-      "type": "boolean"
+      "order": 7
     },
     "ignoreCommands": {
+      "title": "Ignored Commands",
+      "description": "Commands that must not create history entries.",
+      "type": "array",
       "default": [
         "command-palette:toggle"
       ],
       "items": {
         "type": "string"
       },
-      "description": "list of commands to exclude from history tracking.",
-      "order": 8,
-      "type": "array"
+      "order": 8
     },
     "debug": {
+      "title": "Debug Logging",
+      "description": "Print history changes to the developer console.",
+      "type": "boolean",
       "default": false,
-      "order": 9,
-      "type": "boolean"
+      "order": 9
     }
   },
-  "scripts": {
-    "test": "apm test",
-    "watch": "fswatch -0 spec lib | xargs -0 -n1 -I{} apm test",
-    "prettier": "prettier --write --no-semi --print-width=120 --no-bracket-spacing --trailing-comma=es5 'lib/**/*.js' 'spec/*.js'",
-    "lint": "standard lib/*.js spec/*.js"
-  },
-  "dependencies": {},
   "devDependencies": {
-    "prettier": "^1.10.2",
-    "standard": "^10.0.3"
-  },
-  "standard": {
-    "env": {
-      "atomtest": true,
-      "browser": true,
-      "jasmine": true,
-      "node": true
-    },
-    "globals": [
-      "atom"
-    ],
-    "ignore": [
-      "spec/fixtures/*"
-    ]
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^18.2.2",
+    "globals": "^17.9.0",
+    "prettier": "^3.9.6"
   }
 }

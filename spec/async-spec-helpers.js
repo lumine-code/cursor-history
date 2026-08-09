@@ -1,75 +1,69 @@
-'use babel'
-// Borrowed from Atom core's spec.
-
-export function beforeEach (fn) {
+function beforeEach(fn) {
   global.beforeEach(function () {
-    const result = fn()
-    if (result instanceof Promise) {
-      waitsForPromise(() => result)
-    }
-  })
+    const result = fn();
+    if (result instanceof Promise) waitsForPromise(() => result);
+  });
 }
 
-export function afterEach (fn) {
+function afterEach(fn) {
   global.afterEach(function () {
-    const result = fn()
-    if (result instanceof Promise) {
-      waitsForPromise(() => result)
-    }
-  })
+    const result = fn();
+    if (result instanceof Promise) waitsForPromise(() => result);
+  });
 }
 
-;['it', 'fit', 'ffit', 'fffit'].forEach(function (name) {
+["it", "fit", "ffit", "fffit"].forEach(function (name) {
   module.exports[name] = function (description, fn) {
+    if (fn === undefined) {
+      global[name](description);
+      return;
+    }
     global[name](description, function () {
-      const result = fn()
-      if (result instanceof Promise) {
-        waitsForPromise(() => result)
-      }
-    })
-  }
-})
+      const result = fn();
+      if (result instanceof Promise) waitsForPromise(() => result);
+    });
+  };
+});
 
-export async function conditionPromise (condition) {
-  const startTime = Date.now()
-
+async function conditionPromise(condition) {
+  const startTime = Date.now();
   while (true) {
-    await timeoutPromise(100)
-
-    if (await condition()) {
-      return
-    }
-
-    if (Date.now() - startTime > 5000) {
-      throw new Error('Timed out waiting on condition')
-    }
+    await timeoutPromise(100);
+    if (await condition()) return;
+    if (Date.now() - startTime > 5000) throw new Error("Timed out waiting on condition");
   }
 }
 
-export function timeoutPromise (timeout) {
-  return new Promise(function (resolve) {
-    global.setTimeout(resolve, timeout)
-  })
+function timeoutPromise(timeout) {
+  return new Promise((resolve) => global.setTimeout(resolve, timeout));
 }
 
-function waitsForPromise (fn) {
-  const promise = fn()
-  global.waitsFor('spec promise to resolve', function (done) {
+function waitsForPromise(fn) {
+  const promise = fn();
+  global.waitsFor("spec promise to resolve", function (done) {
     promise.then(done, function (error) {
-      jasmine.getEnv().currentSpec.fail(error)
-      done()
-    })
-  })
+      jasmine.getEnv().currentSpec.fail(error);
+      done();
+    });
+  });
 }
 
-export function emitterEventPromise (emitter, event, timeout = 15000) {
+function emitterEventPromise(emitter, event, timeout = 15000) {
   return new Promise((resolve, reject) => {
     const timeoutHandle = setTimeout(() => {
-      reject(new Error(`Timed out waiting for '${event}' event`))
-    }, timeout)
+      reject(new Error(`Timed out waiting for '${event}' event`));
+    }, timeout);
     emitter.once(event, () => {
-      clearTimeout(timeoutHandle)
-      resolve()
-    })
-  })
+      clearTimeout(timeoutHandle);
+      resolve();
+    });
+  });
 }
+
+Object.assign(module.exports, {
+  afterEach,
+  beforeEach,
+  conditionPromise,
+  emitterEventPromise,
+  timeoutPromise,
+});
