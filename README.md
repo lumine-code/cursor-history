@@ -19,17 +19,23 @@ To install `cursor-history` search for _cursor-history_ in the Install pane of t
 
 Commands available in `lumine-text-editor`:
 
-- `cursor-history:prev`: visit the previous saved position.
-- `cursor-history:next`: visit the next saved position.
-- `cursor-history:prev-within-editor`: visit the previous position in the current editor.
-- `cursor-history:next-within-editor`: visit the next position in the current editor.
-- `cursor-history:clear`: remove every saved position.
-- `cursor-history:dump-history`: print the current history to the developer console.
+- `cursor-history:prev`: visit the previous saved position,
+- `cursor-history:next`: visit the next saved position,
+- `cursor-history:prev-within-editor`: visit the previous position in the current editor,
+- `cursor-history:next-within-editor`: visit the next position in the current editor,
+- `cursor-history:clear`: remove every saved position,
+- `cursor-history:dump-history`: print the current history to the developer console,
 - `cursor-history:toggle-debug`: toggle diagnostic logging.
 
-## Configuration
+## Customization
 
-The package settings control history length, row and column movement thresholds, closed-file behavior, per-file deduplication, pane search, pending editors, destination flashes, ignored commands, and debug logging.
+Adjust the destination flash in your `styles.css`:
+
+```css
+lumine-text-editor.editor .line.cursor-history-flash-line {
+  outline: 1px solid var(--text-color-info);
+}
+```
 
 ## Contributing
 

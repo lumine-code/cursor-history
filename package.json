@@ -26,8 +26,8 @@
     "lumine": "^1.0.0"
   },
   "backgroundTips": [
-    "Return to an earlier cursor position with {{ 'cursor-history:prev' | keystroke }}",
-    "Move forward through cursor history with {{ 'cursor-history:next' | keystroke }}"
+    "You can return to an earlier cursor position with {{ 'cursor-history:prev' | keystroke }}",
+    "You can move forward through cursor history with {{ 'cursor-history:next' | keystroke }}"
   ],
   "scripts": {
     "test": "lumine --test spec",
@@ -40,79 +40,69 @@
       "title": "Maximum Entries",
       "description": "Maximum number of cursor positions to keep.",
       "type": "integer",
-      "default": 100,
       "minimum": 1,
-      "order": 0
+      "default": 100
     },
     "rowDeltaToRemember": {
       "title": "Row Movement Threshold",
       "description": "Save a position when the cursor moves farther than this many rows.",
       "type": "integer",
-      "default": 4,
       "minimum": 0,
-      "order": 1
+      "default": 4
     },
     "columnDeltaToRemember": {
       "title": "Column Movement Threshold",
       "description": "Save same-row movement when it exceeds this many columns.",
       "type": "integer",
-      "default": 9999,
       "minimum": 0,
-      "order": 2
+      "default": 9999
     },
     "excludeClosedBuffer": {
       "title": "Exclude Closed Files",
       "description": "Remove positions whose editor has been closed.",
       "type": "boolean",
-      "default": false,
-      "order": 3
+      "default": false
     },
     "keepSingleEntryPerBuffer": {
       "title": "One Entry per File",
       "description": "Keep only the latest position for each file.",
       "type": "boolean",
-      "default": false,
-      "order": 4
+      "default": false
     },
     "searchAllPanes": {
       "title": "Search All Panes",
       "description": "Reuse an existing editor from any pane before opening another one.",
       "type": "boolean",
-      "default": true,
-      "order": 5
+      "default": true
     },
     "openInPendingState": {
       "title": "Open in Preview Mode",
       "description": "Open closed history targets in pending state.",
       "type": "boolean",
-      "default": false,
-      "order": 6
+      "default": false
     },
     "flashOnLand": {
       "title": "Flash Destination Line",
       "description": "Briefly highlight the destination after a jump.",
       "type": "boolean",
-      "default": true,
-      "order": 7
+      "default": true
     },
     "ignoreCommands": {
       "title": "Ignored Commands",
       "description": "Commands that must not create history entries.",
       "type": "array",
-      "default": [
-        "command-palette:toggle"
-      ],
       "items": {
         "type": "string"
       },
-      "order": 8
+      "default": [
+        "command-palette:toggle"
+      ]
     },
     "debug": {
       "title": "Debug Logging",
       "description": "Print history changes to the developer console.",
       "type": "boolean",
-      "default": false,
-      "order": 9
+      "default": false
     }
   },
   "devDependencies": {
