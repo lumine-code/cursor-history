@@ -1,5 +1,4 @@
 const path = require("node:path");
-const { it, beforeEach, afterEach } = require("./async-spec-helpers");
 
 describe("cursor-history", () => {
   let commandDisposable;
