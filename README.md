@@ -13,7 +13,7 @@ Navigate backward and forward through recent cursor positions.
 
 ## Installation
 
-To install `cursor-history` search for _cursor-history_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/cursor-history`.
+To install `cursor-history` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/cursor-history`.
 
 ## Commands
 
