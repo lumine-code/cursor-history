@@ -108,6 +108,31 @@ describe("cursor-history", () => {
     expect(state.history.index).toBe(1);
   });
 
+  it("deserializes an entry whose URI is open as a non-editor pane item", async () => {
+    const uri = "cursor-history-spec://preview";
+    const opener = lumine.workspace.addOpener((itemURI) => {
+      if (itemURI === uri) {
+        return {
+          element: document.createElement("div"),
+          getURI: () => uri,
+          getTitle: () => "Preview",
+        };
+      }
+    });
+
+    try {
+      await lumine.workspace.open(uri);
+      main.state = { history: { index: 1, entries: [{ point: [2, 1], URI: uri }] } };
+      const history = main.getHistory();
+
+      expect(history.entries).toHaveLength(1);
+      expect(history.entries[0].editor).toBeUndefined();
+      expect(history.entries[0].point).toEqual([2, 1]);
+    } finally {
+      opener.dispose();
+    }
+  });
+
   it("clears entries and their markers", () => {
     const history = main.getHistory();
     history.add({ editor, point: editor.getCursorBufferPosition(), URI: sampleOne });
