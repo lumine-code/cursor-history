@@ -33,7 +33,7 @@ Adjust the destination flash in your `styles.css`:
 
 ```css
 lumine-text-editor.editor .line.cursor-history-flash-line {
-  outline: 1px solid var(--text-color-info);
+  outline: 1px solid var(--accent-color);
 }
 ```
 
