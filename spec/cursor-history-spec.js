@@ -51,6 +51,23 @@ describe("cursor-history", () => {
     expect(main.history).toBeFalsy();
   });
 
+  it("finishes tracking against the actually focused embedded editor", () => {
+    const embeddedEditor = {};
+    const location = {
+      computeNeedToSave: jasmine.createSpy("computeNeedToSave").and.returnValue(false),
+    };
+    spyOn(lumine.textEditors, "getActiveTextEditor").and.returnValue(embeddedEditor);
+    spyOn(lumine.workspace, "getActiveTextEditor").and.returnValue(editor);
+
+    main.checkLocationChange(location, 100);
+    advanceClock(100);
+
+    expect(location.computeNeedToSave).toHaveBeenCalledWith(embeddedEditor, {
+      rowDelta: main.rowDeltaToRemember,
+      columnDelta: main.columnDeltaToRemember,
+    });
+  });
+
   it("navigates backward and forward within an editor", async () => {
     const history = main.getHistory();
     editor.setCursorBufferPosition([1, 0]);
