@@ -91,10 +91,12 @@ describe("cursor-history", () => {
 
     const secondEditor = await lumine.workspace.open(sampleTwo);
     secondEditor.setCursorBufferPosition([8, 0]);
+    const open = spyOn(lumine.workspace, "open").and.callThrough();
     await history.jump(secondEditor, "prev");
 
     expect(lumine.workspace.getActiveTextEditor()).toBe(editor);
     expect(editor.getCursorBufferPosition()).toEqual([4, 2]);
+    expect(open).toHaveBeenCalledWith(editor, { searchAllPanes: true });
   });
 
   it("reopens a closed file when its entry is visited", async () => {
