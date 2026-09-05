@@ -56,7 +56,7 @@ describe("cursor-history", () => {
     const location = {
       computeNeedToSave: jasmine.createSpy("computeNeedToSave").and.returnValue(false),
     };
-    spyOn(lumine.textEditors, "getActiveTextEditor").and.returnValue(embeddedEditor);
+    spyOn(lumine.workspace, "getFocusedTextEditor").and.returnValue(embeddedEditor);
     spyOn(lumine.workspace, "getActiveTextEditor").and.returnValue(editor);
 
     main.checkLocationChange(location, 100);
