@@ -84,6 +84,18 @@ describe("cursor-history", () => {
     expect(editor.getCursorBufferPosition()).toEqual([6, 0]);
   });
 
+  it("uses the active editor when a menu command starts outside an editor", async () => {
+    const panelButton = document.createElement("button");
+    lumine.workspace.getElement().appendChild(panelButton);
+    const history = main.getHistory();
+    spyOn(history, "jump").and.returnValue(Promise.resolve());
+
+    await lumine.commands.dispatch(panelButton, "cursor-history:prev");
+
+    expect(history.jump).toHaveBeenCalledWith(editor, "prev", undefined);
+    panelButton.remove();
+  });
+
   it("activates the existing editor when navigating across files", async () => {
     const history = main.getHistory();
     editor.setCursorBufferPosition([4, 2]);
