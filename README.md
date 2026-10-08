@@ -2,6 +2,8 @@
 
 Navigate backward and forward through recent cursor positions.
 
+Fork of [t9md/atom-cursor-history](https://github.com/t9md/atom-cursor-history).
+
 ## Features
 
 - **Cross-file navigation**: revisits saved cursor locations across open and closed files.
