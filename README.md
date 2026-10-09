@@ -19,7 +19,7 @@ To install `cursor-history` search for it in the Install pane of the Lumine sett
 
 ## Commands
 
-Commands available in `lumine-text-editor`:
+Commands available in `lumine-workspace`:
 
 - `cursor-history:prev`: visit the previous saved position,
 - `cursor-history:next`: visit the next saved position,
