@@ -34,11 +34,20 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm run lint
-      - run: npm run format:check
-      - run: npm audit --audit-level=high
-      - run: npm pack --dry-run
+      # npm may record the @lumine-code git forks with ssh URLs, but the runner
+      # has no ssh key, so rewrite them to anonymous HTTPS (the forks are public).
+      - name: Use HTTPS for GitHub git dependencies
+        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Lint
+        run: npm run lint
+      - name: Check formatting
+        run: npm run format:check
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+      - name: Check package contents
+        run: npm pack --dry-run
 
   integration:
     name: Lumine integration specs on ${{ matrix.os }}
@@ -54,6 +63,9 @@ jobs:
     env:
       LUMINE_JASMINE_REPORTER: list
       LUMINE_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT: "true"
+      LUMINE_HOME: ${{ github.workspace }}/cursor-history-spec-home
+      HOME: ${{ github.workspace }}/cursor-history-spec-home
+      USERPROFILE: ${{ github.workspace }}/cursor-history-spec-home
       TEMP: ${{ github.workspace }}/cursor-history-spec-tmp
       TMP: ${{ github.workspace }}/cursor-history-spec-tmp
       TMPDIR: ${{ github.workspace }}/cursor-history-spec-tmp
@@ -65,13 +77,13 @@ jobs:
         with:
           repository: lumine-code/lumine
           path: lumine
+      - name: Create the private home and temporary directory
+        run: mkdir -p "$TEMP" "$LUMINE_HOME/electronUserData"
       - uses: actions/setup-node@v7
         with:
           node-version-file: lumine/.nvmrc
           cache: npm
           cache-dependency-path: lumine/package-lock.json
-      - name: Create the private temporary directory
-        run: mkdir -p "$TEMP"
       - name: Install Linux build and headless-display dependencies
         if: runner.os == 'Linux'
         run: |
@@ -93,14 +105,14 @@ jobs:
       - name: Rebuild native modules for Electron
         working-directory: lumine
         run: npm run build
-      - name: Prepare the private test home
+      - name: Install spec dependency packages
         working-directory: lumine
-        run: node script/install-spec-packages.js --package ../cursor-history --home "$RUNNER_TEMP/cursor-history-home" --github-env "$GITHUB_ENV"
+        run: node script/install-spec-packages.js --package ../cursor-history --home "$LUMINE_HOME" --github-env "$GITHUB_ENV"
       - name: Run the Jasmine spec suite
         working-directory: lumine
         timeout-minutes: 20
         run: |
-          if [ "$RUNNER_OS" = Linux ]; then
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
             xvfb-run --auto-servernum npm start -- --test ../cursor-history/spec
           else
             npm start -- --test ../cursor-history/spec

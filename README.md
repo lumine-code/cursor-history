@@ -9,7 +9,7 @@ Fork of [t9md/atom-cursor-history](https://github.com/t9md/atom-cursor-history).
 - **Cross-file navigation**: revisits saved cursor locations across open and closed files.
 - **Per-editor navigation**: optionally limits traversal to the current editor.
 - **Movement thresholds**: records positions after configurable row or column movement.
-- **Live markers**: tracks edits so saved positions move with their buffers.
+- **Live markers**: tracks edits so saved positions move with their buffers and keeps distinct unnamed buffers separate at the same position.
 - **Destination flash**: briefly highlights a location after landing there.
 - **Serializable state**: restores valid cursor history with the workspace session.
 
