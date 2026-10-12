@@ -45,7 +45,12 @@ describe("Cursor jumps preserve unnamed buffer identity", () => {
     lumine.config.set("cursor-history.keepSingleEntryPerBuffer", false);
     const pane = lumine.workspace.paneForItem(first);
     pane.activateItem(first);
-    sibling = pane.splitRight({ copyActiveItem: true }).getActiveItem();
+    sibling = (
+      await lumine.workspace.copyPaneItem(pane.getActiveItem(), {
+        sourcePane: pane,
+        splitDirection: "right",
+      })
+    ).pane.getActiveItem();
     expect(sibling.getBuffer()).toBe(first.getBuffer());
     history = main.getHistory();
     history.add({ editor: first, point: new Point(0, 0) });

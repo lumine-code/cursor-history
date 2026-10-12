@@ -10,7 +10,12 @@ describe("Cursor history historical issue controls", () => {
 
   it("returns to the recorded editor when two panes share the same file URI", async () => {
     const originalPane = lumine.workspace.getActivePane();
-    const secondPane = originalPane.splitRight({ copyActiveItem: true });
+    const secondPane = (
+      await lumine.workspace.copyPaneItem(originalPane.getActiveItem(), {
+        sourcePane: originalPane,
+        splitDirection: "right",
+      })
+    ).pane;
     const copy = secondPane.getActiveItem();
     expect(copy).not.toBe(editor);
     expect(copy.getURI()).toBe(editor.getURI());

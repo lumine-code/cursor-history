@@ -170,6 +170,7 @@ describe("cursor-history", () => {
       if (itemURI === uri) {
         return {
           element: document.createElement("div"),
+          isSingleton: () => true,
           getURI: () => uri,
           getTitle: () => "Preview",
         };

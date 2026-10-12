@@ -85,6 +85,7 @@ describe("Cursor history pending jump lifetime", () => {
     editor.destroy();
     const currentEditor = await lumine.workspace.open();
     const paneItem = {
+      isSingleton: () => true,
       getTitle: () => "Alternative view",
       getURI: () => uri,
       getElement: () => element,

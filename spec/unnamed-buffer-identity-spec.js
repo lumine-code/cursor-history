@@ -61,9 +61,14 @@ describe("Cursor History unnamed buffer identity", () => {
     await recordAndReturn(false, true);
   });
 
-  it("keeps one entry for two actual split editors sharing an unnamed buffer", () => {
+  it("keeps one entry for two actual split editors sharing an unnamed buffer", async () => {
     lumine.workspace.getActivePane().activateItem(first);
-    sibling = lumine.workspace.getActivePane().splitRight({ copyActiveItem: true }).getActiveItem();
+    sibling = (
+      await lumine.workspace.copyPaneItem(lumine.workspace.getActivePane().getActiveItem(), {
+        sourcePane: lumine.workspace.getActivePane(),
+        splitDirection: "right",
+      })
+    ).pane.getActiveItem();
     expect(sibling.getBuffer()).toBe(first.getBuffer());
     expect(sibling.getURI()).toBeUndefined();
     lumine.config.set("cursor-history.keepSingleEntryPerBuffer", true);
