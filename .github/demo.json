@@ -1,0 +1,23 @@
+{
+  "title": "cursor-history",
+  "description": "Return to the cursor position preceding a navigation command.",
+  "recordedOn": "2026-10-13",
+  "sourceRevision": "c382bfc2663267673d2b92591eed0d8584fee7f5",
+  "mode": "normal",
+  "fontSettings": "default",
+  "themeSourceRevision": "6564a9e21899b5541e9c8f8006f9be6d6d72e6ad",
+  "images": [
+    {
+      "file": "demo.png",
+      "label": "Cursor after jumping to the end of the file.",
+      "width": 1100,
+      "height": 730
+    },
+    {
+      "file": "demo-2.png",
+      "label": "Cursor History returns to the previous editing location.",
+      "width": 1100,
+      "height": 730
+    }
+  ]
+}

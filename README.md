@@ -13,6 +13,10 @@ Fork of [t9md/atom-cursor-history](https://github.com/t9md/atom-cursor-history).
 - **Destination flash**: briefly highlights a location after landing there.
 - **Serializable state**: restores valid cursor history with the workspace session.
 
+![Cursor after jumping to the end of the file.](.github/demo.png)
+
+![Cursor History returns to the previous editing location.](.github/demo-2.png)
+
 ## Installation
 
 To install `cursor-history` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/cursor-history`.
