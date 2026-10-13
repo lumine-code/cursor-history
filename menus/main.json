@@ -27,11 +27,15 @@
       "submenu": [
         {
           "label": "Previous Cursor Position",
-          "command": "cursor-history:prev"
+          "command": "cursor-history:prev",
+          "group": "navigation",
+          "order": 40
         },
         {
           "label": "Next Cursor Position",
-          "command": "cursor-history:next"
+          "command": "cursor-history:next",
+          "group": "navigation",
+          "order": 50
         }
       ]
     }
