@@ -21,6 +21,19 @@
           ]
         }
       ]
+    },
+    {
+      "label": "Search",
+      "submenu": [
+        {
+          "label": "Previous Cursor Position",
+          "command": "cursor-history:prev"
+        },
+        {
+          "label": "Next Cursor Position",
+          "command": "cursor-history:next"
+        }
+      ]
     }
   ]
 }
