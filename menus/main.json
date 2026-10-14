@@ -23,7 +23,7 @@
       ]
     },
     {
-      "label": "Search",
+      "label": "Go",
       "submenu": [
         {
           "label": "Previous Cursor Position",
