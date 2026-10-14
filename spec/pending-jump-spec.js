@@ -91,10 +91,18 @@ describe("Cursor history pending jump lifetime", () => {
       getElement: () => element,
     };
     const element = document.createElement("div");
-    const opener = lumine.workspace.addOpener((target) => (target === uri ? paneItem : undefined));
+    const landing = spyOn(history, "land").and.callThrough();
+    const opener = lumine.workspace.addPathOpener({
+      id: "cursor-history-alternative",
+      label: "History Alternative",
+      canOpen: (target) => target === uri,
+      open: () => paneItem,
+      handlesItem: (item) => item === paneItem,
+    });
     try {
       await expectAsync(history.jump(currentEditor, "prev")).toBeResolved();
       expect(lumine.workspace.getActivePaneItem()).toBe(paneItem);
+      expect(landing).not.toHaveBeenCalled();
     } finally {
       opener.dispose();
       await lumine.workspace.paneForItem(paneItem)?.destroyItem(paneItem);
