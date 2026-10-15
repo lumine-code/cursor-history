@@ -1,6 +1,8 @@
 {
-  "lumine-text-editor": {
-    "alt-left": "cursor-history:prev",
-    "alt-right": "cursor-history:next"
+  // The history tracks file editors, not a dialog's query editor. Bare Alt
+  // arrows remain word/subword navigation on every platform.
+  "lumine-text-editor:not([mini])": {
+    "cmdorctrl-k alt-left": "cursor-history:prev",
+    "cmdorctrl-k alt-right": "cursor-history:next"
   }
 }
