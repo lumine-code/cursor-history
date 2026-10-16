@@ -127,6 +127,9 @@ describe("Cursor History command availability", () => {
     invalidate.calls.reset();
     history.add({ editor, point: editor.getCursorBufferPosition() });
     expect(invalidate).toHaveBeenCalled();
+    invalidate.calls.reset();
+    history.add({ editor, point: [1, 0] });
+    expect(invalidate).not.toHaveBeenCalled();
     editor.destroy();
     invalidate.calls.reset();
     const target = lumine.workspace.getElement();
@@ -136,5 +139,8 @@ describe("Cursor History command availability", () => {
 
     expect(invalidate).toHaveBeenCalled();
     expect(lumine.commands.canDispatch(target, "cursor-history:prev")).toBe(false);
+    invalidate.calls.reset();
+    await lumine.commands.dispatch(target, "cursor-history:clear");
+    expect(invalidate).not.toHaveBeenCalled();
   });
 });
