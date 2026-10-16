@@ -27,11 +27,14 @@ Commands available in `lumine-workspace`:
 
 - `cursor-history:prev`: visit the previous saved position,
 - `cursor-history:next`: visit the next saved position,
-- `cursor-history:prev-within-editor`: visit the previous position in the current editor,
-- `cursor-history:next-within-editor`: visit the next position in the current editor,
 - `cursor-history:clear`: remove every saved position,
 - `cursor-history:dump-history`: print the current history to the developer console,
 - `cursor-history:toggle-debug`: toggle diagnostic logging.
+
+Commands available in `lumine-text-editor:not([mini])`:
+
+- `cursor-history:prev-within-editor`: visit the previous position in the current editor,
+- `cursor-history:next-within-editor`: visit the next position in the current editor.
 
 ## Customization
 
