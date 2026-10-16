@@ -106,6 +106,27 @@ describe("Cursor History command availability", () => {
     }
   });
 
+  it("clears restored positions before history initializes", async () => {
+    main.state = {
+      history: {
+        index: 1,
+        entries: [{ point: [1, 0], URI: path.join(__dirname, "fixtures", "sample-1.js") }],
+      },
+    };
+    const getHistory = spyOn(main, "getHistory").and.callThrough();
+    const invalidate = spyOn(lumine.commands, "invalidateAvailability").and.callThrough();
+    const target = lumine.workspace.getElement();
+    expect(lumine.commands.canDispatch(target, "cursor-history:prev")).toBe(true);
+
+    await lumine.commands.dispatch(target, "cursor-history:clear");
+
+    expect(invalidate).toHaveBeenCalled();
+    expect(lumine.commands.canDispatch(target, "cursor-history:prev")).toBe(false);
+    expect(main.serialize().history).toEqual({ index: 0, entries: [] });
+    expect(getHistory).not.toHaveBeenCalled();
+    expect(main.history).toBeFalsy();
+  });
+
   it("queries existing entries without validating paths or traversing history", async () => {
     editor = await lumine.workspace.open(path.join(__dirname, "fixtures", "sample-1.js"));
     const history = main.getHistory();
