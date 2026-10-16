@@ -172,12 +172,13 @@ describe("cursor-history", () => {
     expect(reopened.getCursorBufferPosition()).toEqual([6, 1]);
   });
 
-  it("serializes valid entries and restores their points", () => {
+  it("persists valid cursor positions in project storage", async () => {
     const history = main.getHistory();
     editor.setCursorBufferPosition([3, 4]);
     history.add({ editor, point: editor.getCursorBufferPosition(), URI: sampleOne });
 
-    const state = main.serialize();
+    await main.saving;
+    const state = { history: main.workspaceState.get("history") };
     expect(state.history.entries).toEqual([{ point: [3, 4], URI: sampleOne }]);
     expect(state.history.index).toBe(1);
   });
@@ -197,7 +198,10 @@ describe("cursor-history", () => {
 
     try {
       await lumine.workspace.open(uri);
-      main.state = { history: { index: 1, entries: [{ point: [2, 1], URI: uri }] } };
+      await main.workspaceState.update("history", {
+        index: 1,
+        entries: [{ point: [2, 1], URI: uri }],
+      });
       const history = main.getHistory();
 
       expect(history.entries).toHaveLength(1);
@@ -267,12 +271,13 @@ describe("cursor-history", () => {
       source.getBuffer().setPath(targetPath);
       const targetURI = source.getURI();
       source.destroy();
-      const state = main.serialize();
+      await main.saving;
+      const state = { history: main.workspaceState.get("history") };
       expect(state.history.entries).toEqual([{ point: [1, 2], URI: targetURI }]);
 
       await lumine.packages.deactivatePackage("cursor-history");
       ({ mainModule: main } = await lumine.packages.activatePackage("cursor-history"));
-      main.state = state;
+      await main.workspaceState.update("history", state.history);
       const restored = main.getHistory();
       expect(restored.entries).toHaveLength(1);
       expect(restored.entries[0].URI).toBe(targetURI);

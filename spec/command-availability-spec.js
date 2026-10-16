@@ -66,15 +66,13 @@ describe("Cursor History command availability", () => {
 
   it("uses restored positions before initializing history, including forward navigation", async () => {
     const uri = path.join(__dirname, "fixtures", "sample-2.js");
-    main.state = {
-      history: {
-        index: 0,
-        entries: [
-          { point: [1, 0], URI: path.join(__dirname, "fixtures", "sample-1.js") },
-          { point: [6, 1], URI: uri },
-        ],
-      },
-    };
+    await main.workspaceState.update("history", {
+      index: 0,
+      entries: [
+        { point: [1, 0], URI: path.join(__dirname, "fixtures", "sample-1.js") },
+        { point: [6, 1], URI: uri },
+      ],
+    });
     const getHistory = spyOn(main, "getHistory").and.callThrough();
     const target = lumine.workspace.getElement();
     expect(lumine.commands.canDispatch(target, "cursor-history:next")).toBe(true);
@@ -107,12 +105,10 @@ describe("Cursor History command availability", () => {
   });
 
   it("clears restored positions before history initializes", async () => {
-    main.state = {
-      history: {
-        index: 1,
-        entries: [{ point: [1, 0], URI: path.join(__dirname, "fixtures", "sample-1.js") }],
-      },
-    };
+    await main.workspaceState.update("history", {
+      index: 1,
+      entries: [{ point: [1, 0], URI: path.join(__dirname, "fixtures", "sample-1.js") }],
+    });
     const getHistory = spyOn(main, "getHistory").and.callThrough();
     const invalidate = spyOn(lumine.commands, "invalidateAvailability").and.callThrough();
     const target = lumine.workspace.getElement();
@@ -122,7 +118,10 @@ describe("Cursor History command availability", () => {
 
     expect(invalidate).toHaveBeenCalled();
     expect(lumine.commands.canDispatch(target, "cursor-history:prev")).toBe(false);
-    expect(main.serialize().history).toEqual({ index: 0, entries: [] });
+    expect(main.workspaceState.get("history", { index: 0, entries: [] })).toEqual({
+      index: 0,
+      entries: [],
+    });
     expect(getHistory).not.toHaveBeenCalled();
     expect(main.history).toBeFalsy();
   });

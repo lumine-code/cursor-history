@@ -11,7 +11,7 @@ Fork of [t9md/atom-cursor-history](https://github.com/t9md/atom-cursor-history).
 - **Movement thresholds**: records positions after configurable row or column movement.
 - **Live markers**: tracks edits so saved positions move with their buffers and keeps distinct unnamed buffers separate at the same position.
 - **Destination flash**: briefly highlights a location after landing there.
-- **Serializable state**: restores valid cursor history with the workspace session.
+- **Project history**: remembers valid cursor positions separately for each project.
 
 ![Cursor after jumping to the end of the file.](.github/demo.png)
 
