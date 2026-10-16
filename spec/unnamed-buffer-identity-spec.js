@@ -42,7 +42,7 @@ describe("Cursor History unnamed buffer identity", () => {
     expect(history.getValidEntries().map(({ editor }) => editor)).toEqual([first, second]);
     lumine.workspace.getActivePane().activateItem(first);
     spyOn(history, "jump").and.callThrough();
-    lumine.commands.dispatch(lumine.workspace.getElement(), "cursor-history:prev-within-editor");
+    lumine.commands.dispatch(first.getElement(), "cursor-history:prev-within-editor");
     expect(history.jump).toHaveBeenCalledTimes(1);
     await history.jump.calls.mostRecent().returnValue;
     expect(lumine.workspace.getActiveTextEditor()).toBe(first);

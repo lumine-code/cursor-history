@@ -121,6 +121,24 @@ describe("cursor-history", () => {
     panelButton.remove();
   });
 
+  it("keeps editor-only history traversal local without limiting cross-document history", async () => {
+    const workspace = lumine.workspace.getElement();
+    const history = main.getHistory();
+    spyOn(history, "jump").and.resolveTo();
+    expect(lumine.commands.canDispatch(workspace, "cursor-history:prev")).toBe(true);
+    expect(lumine.commands.canDispatch(workspace, "cursor-history:prev-within-editor")).toBe(false);
+    const mini = lumine.workspace.buildTextEditor({ mini: true });
+    workspace.appendChild(mini.getElement());
+    expect(
+      lumine.commands.canDispatch(mini.getElement(), "cursor-history:prev-within-editor"),
+    ).toBe(false);
+    mini.destroy();
+    await lumine.commands.dispatch(workspace, "cursor-history:prev-within-editor");
+    expect(history.jump).not.toHaveBeenCalled();
+    await lumine.commands.dispatch(editorElement, "cursor-history:prev-within-editor");
+    expect(history.jump).toHaveBeenCalledOnceWith(editor, "prev", editor);
+  });
+
   it("activates the existing editor when navigating across files", async () => {
     const history = main.getHistory();
     editor.setCursorBufferPosition([4, 2]);
