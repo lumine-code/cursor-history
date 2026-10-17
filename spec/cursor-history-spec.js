@@ -69,6 +69,23 @@ describe("cursor-history", () => {
     expect(main.history.entries[0].URI).toBe(sampleOne);
   });
 
+  it("records the first command in a new project while the previous command was throttled", () => {
+    const paths = lumine.project.getPaths();
+    editor.setCursorBufferPosition([1, 3]);
+    lumine.commands.dispatch(editorElement, "test:move-down-five");
+    try {
+      lumine.project.setPaths([__dirname]);
+      editor.setCursorBufferPosition([1, 3]);
+      lumine.commands.dispatch(editorElement, "test:move-down-five");
+      advanceClock(100);
+
+      expect(main.history?.entries.length).toBe(1);
+      expect(main.history?.entries[0].point).toEqual([1, 3]);
+    } finally {
+      lumine.project.setPaths(paths);
+    }
+  });
+
   it("does not record movement below the configured threshold", () => {
     editor.setCursorBufferPosition([1, 0]);
     lumine.commands.dispatch(editorElement, "core:move-down");
