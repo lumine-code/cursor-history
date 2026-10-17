@@ -10,3 +10,10 @@
 lumine-text-editor.editor .line.cursor-history-flash-line {
   animation: cursor-history-flash 0.8s 1;
 }
+
+/* Respect reduced motion while retaining visible status indicators. */
+@media (prefers-reduced-motion: reduce) {
+  lumine-text-editor.editor .line.cursor-history-flash-line {
+    animation: none;
+  }
+}
